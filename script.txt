@@ -1,0 +1,35 @@
+#!/bin/bash #Шаг 1. Создание скрипта
+# Выбор имени файла, в который будет производиться запись #Шаг 2. Логировани>
+log_file="log.txt"
+
+# Тело функции
+log() {
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" >> "$log_file"
+}
+
+if [ ! -f customers_processed.csv ]; then #Шаг 3. Проверка файлов с помощью >
+        echo "Файл customers_processed.csv не найден."
+        exit 1
+fi
+
+if [ $# -ep 0 ]; then #Шаг 4. Проверка аргументов с помощью условной функции
+        echo "Укажите хотя бы один фильтр, например: ./script_customers.sh М>
+        exit 1
+fi
+
+filter=$1 #Шаг 5. Обработка переменных и аргументов командной строки. Цикл f>
+echo "Фильтр: $filter"
+
+for filter in "$@"; do
+        echo "Обрабатываем фильтр: $filter"
+done
+
+count=$(grep -c "$filter" customers_processed.csv) #Шаг 6. Условия внутри ци>
+
+if [ "$count" -gt 0 ]; then
+        grep "$filter" customers_processed.csv > "filtered_${filter}.csv"
+        echo "Сохранено в файл filtered_${filter}.csv"
+else
+        echo "Совпадений не найдено. Пропущено."
+fi
+
