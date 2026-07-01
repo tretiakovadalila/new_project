@@ -1,2 +1,2 @@
-# new_project
+# my_project
 То самое описание
